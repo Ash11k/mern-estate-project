@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import {useNavigate , useParams} from 'react-router-dom';
 import { useEffect } from 'react';
 
-export default function CreateListing() {
+export default function UpdateListing() {
   const {currentUser} = useSelector (state=> state.user)
   const navigate = useNavigate();
   const params = useParams();
@@ -30,14 +30,16 @@ const [imageUploadError, setImageUploadError] = useState("");
 const [uploading , setUploading] = useState(false);
 const [error , setError ] = useState(false);
 const [loading, setLoading ] = useState(false);
+const [fetchLoading, setFetchLoading] = useState(false);
 
 useEffect (() => {
 const fetchListing = async () => {
   try { 
     setFetchLoading(true);
 
-const listingId = params.listingId ; 
+
 const res = await fetch (`/api/listing/get/${params.listingId}`);
+
 const data = await res.json();
 
 
@@ -169,7 +171,7 @@ const handleSubmit= async (e) => {
 setLoading(true);
 setError(false);
 const res = await fetch (`/api/listing/update/${params.listingId}` , {
-  method : 'POST',
+  method : 'PUT',
   headers : {
     'Content-Type' : 'application/json',
   },
