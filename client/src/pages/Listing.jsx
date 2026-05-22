@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import {useParams} from 'react-router-dom';
 import {Swiper , SwiperSlide} from 'swiper/react';
 import SwiperCore from 'swiper';
-import {Navigation} from '<swiper/modules'
+import {Navigation} from 'swiper/modules';
 import 'swiper/css/bundle';
 
 export default function Listing() {
@@ -37,11 +37,23 @@ console.log(loading);
 console.log(loading);
   return ( <main>
      {loading && <p className='text-center my-7 text-2xl'> Loading...</p>}
-     {error && <p className='text-center my-7 text-2xl'>Something went wrong!</p>}
+     {error && (<p className='text-center my-7 text-2xl'>Something went wrong!</p>)}
 
-     {listing && !loading && !error && (
-      <h1>{listing.name}</h1>
-     )}
+     {listing && !loading && !error && 
+     <div>
+     <Swiper navigation>
+{listing.imageUrls.map((url)=>(
+  <SwiperSlide key = {url}>
+    <div className='h-[550px]' style={{background:`url(${url}) center no-repeat`, backgroundSize:'cover'
+  }}> </div>
+  </SwiperSlide>
+))
+
+}
+     </Swiper>
+     </div>
+     }
      
-      </main> )
+      </main>
+       );
 }
