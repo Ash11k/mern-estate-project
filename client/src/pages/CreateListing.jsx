@@ -33,6 +33,7 @@ console.log(formData);
 
 const handleImageSubmit = async (e) => {
   e.preventDefault();
+  setUploading(true);
 
   // 🔥 Total images check (already uploaded + new)
   if (files.length + formData.imageUrls.length > 6) {
@@ -114,24 +115,25 @@ const handleChange = (e) => {
   if(e.target.id === 'sale' || e.target.id === 'rent'){
     setFormData ({
       ...formData,
-      type : e.target.id
-    })
+      type : e.target.id,
+    });
   }
-  if(e.target.id == 'parking' ||
+  else if(e.target.id == 'parking' ||
      e.target.id == 'furnished' || 
-     e.target.id == 'offer' ){
+     e.target.id == 'offer'
+     ){
     setFormData({
       ...formData,
-      [e.target.id] : e.target.checked
-    })
+      [e.target.id] : e.target.checked,
+    });
   }
-  if(e.target.type == 'number' ||
+ else if(e.target.type == 'number' ||
      e.target.type == 'text' ||
       e.target.tagName == 'TEXTAREA') {
     setFormData({
       ...formData,
-      [e.target.id] : e.target.value
-    })
+      [e.target.id] : e.target.value,
+    });
   }
 };
 
@@ -232,6 +234,7 @@ navigate(`/listing/${data._id}`)
        onChange={handleChange}
       checked={formData.offer} />
         <span> Offer </span>
+         <p>{formData.offer ? 'TRUE' : 'FALSE'}</p>
         </div>
 </div>
 
