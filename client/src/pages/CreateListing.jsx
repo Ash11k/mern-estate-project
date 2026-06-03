@@ -19,7 +19,7 @@ bedrooms: 1,
 bathrooms: 1,
 regularPrice : 50,
 discountPrice : 0,
-offer:false,
+offer:true,
 parking:false,
 furnished:false,
 

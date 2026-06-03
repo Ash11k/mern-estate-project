@@ -21,7 +21,7 @@ bedrooms: 1,
 bathrooms: 1,
 regularPrice : 50,
 discountPrice : 0,
-offer:false,
+offer:true,
 parking:false,
 furnished:false,
 
@@ -138,7 +138,7 @@ const handleRemoveImage = (index) => {
 };
 
 const handleChange = (e) => {
-  if(e.target.id === 'sale' || e.target.id === 'rent'){
+  if(e.target.id === 'sell' || e.target.id === 'rent'){
     setFormData ({
       ...formData,
       type : e.target.id
@@ -224,9 +224,9 @@ navigate(`/listing/${data._id}`)
 
      <div className='flex gap-6 flex-wrap'  >
        <div className='flex gap-2'>
-       <input type="checkbox" id="sale" className='w-5' 
+       <input type="checkbox" id="sell" className='w-5' 
        onChange={handleChange} 
-       checked={formData.type == 'sale'}/>
+       checked={formData.type == 'sell'}/>
         <span> Sell</span>
         </div>
 
@@ -355,7 +355,7 @@ accept='image/*'
 <button 
 disabled  = {loading || uploading}
 className='p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-    {loading ? 'Creating...' : 'Update Listing'}
+    {loading ? 'Updating...' : 'Update Listing'}
 </button>
 {error && <p className='text-red-700 text-sm' > {error} </p>}
 </div>
