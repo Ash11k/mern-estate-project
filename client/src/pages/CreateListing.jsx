@@ -38,6 +38,7 @@ const handleImageSubmit = async (e) => {
   // 🔥 Total images check (already uploaded + new)
   if (files.length + formData.imageUrls.length > 6) {
     setImageUploadError("You can upload maximum 6 images per listing");
+      setUploading(false);
     return;
   }
 
@@ -60,6 +61,8 @@ const handleImageSubmit = async (e) => {
 
     } catch (error) {
       setImageUploadError("Image upload failed");
+    } finally {
+        setUploading(false);
     }
   }
 };
