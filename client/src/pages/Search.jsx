@@ -18,7 +18,7 @@ const navigate = useNavigate();
 
    const [loading, setLoading] = useState(false);
    const [listings,setListings] = useState([]);
-console.log(listings);
+   const [showMore , setShowMore] = useState(false);
 
 
    useEffect(()=>{
@@ -55,22 +55,19 @@ setSidebardata({
 }
 const fetchListings = async () => {
 setLoading(true);
+setShowMore(false);
 const searchQuery = urlParams.toString();
-console.log(searchQuery);
-  console.log('REQUEST URL =', `/api/listing/get?${searchQuery}`); 
-
 const res = await fetch(`/api/listing/get?${searchQuery}`);
 const data = await res.json();
-
-  console.log('RESPONSE =', data);
+if(data.length > 8 ){
+   setShowMore(true);
+}
 
 setListings(data);
 setLoading(false);
 }
 
 fetchListings();
-
-
 },[location.search]);
 
 
@@ -113,10 +110,24 @@ const handleSubmit = (e) => {
    urlParams.set('offer',sidebardata.offer)
    urlParams.set('sort',sidebardata.sort)
    urlParams.set('order',sidebardata.order)
+const searchQuery = urlParams.toString()
+    navigate(`/search?${searchQuery}`)
+};
 
-   const searchQuery = urlParams.toString()
-   
-   navigate(`/search?${searchQuery}`)
+const onShowMoreClick = async () => {
+   const numberOfListings = listings.length;
+   const startIndex = numberOfListings;
+   const urlParams = new URLSearchParams(location.search);
+   urlParams.set('startIndex' , startIndex);
+   const searchQuery = urlParams.toString();
+   const res = await fetch (`/api/listing/get?${searchQuery}`);
+   const data = await res.json();
+   if(data.length <  9){
+      setShowMore(true);
+   } else {
+      setShowMore(false)
+   }
+setListings([...listings,...data]);
 }
 
 
@@ -237,8 +248,18 @@ id="sort_order" className='border rounded-lg p-3'>
 )}
 
 {
-   !loading && listings && listings.map((listing) => <ListingItem key={listing._id} listing={listing}/>)
-}
+   !loading && listings && listings.map((listing) => (<ListingItem key={listing._id} listing={listing}/>)
+)}
+{showMore && (
+   <button 
+   onClick={onShowMoreClick}
+
+   className='text-green-700 hover:underline p-7 text-center w-full'
+   >
+      Show more
+
+   </button>
+)}
 </div>
       </div>
     </div>
