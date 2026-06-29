@@ -8,6 +8,7 @@ import { signInStart,
 import OAuth from '../components/OAuth';
 
 export default function SignIn() {
+  console.log("API URL =", import.meta.env.VITE_API_URL);
   const [formData, setFormData] = useState({});
   const{loading,error} =  useSelector((state)=>state.user);
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ setFormData({
     e.preventDefault();
     try{ 
     dispatch(signInStart());
-    const res = await fetch('/api/auth/signin',
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signin`,
       {
         method : 'POST',
         headers:{
@@ -30,7 +31,13 @@ setFormData({
         },
         body: JSON.stringify(formData),
       });
-      const data =await res.json();
+      console.log("status =", res.status);
+
+const text = await res.text();
+console.log("response =", text);
+
+
+      // const data =await res.json();
       console.log(data);
       if(data.success==false){
         dispatch(signInFailure(data.message));

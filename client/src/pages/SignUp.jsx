@@ -25,7 +25,12 @@ setFormData({
         },
         body: JSON.stringify(formData),
       });
-      const data =await res.json();
+      console.log("STATUS:", res.status);
+
+const text = await res.text();
+console.log("SIGNUP RESPONSE:", text);
+
+     // const data =await res.json();
       console.log(data);
       if(data.success==false){
         setLoading(false);
